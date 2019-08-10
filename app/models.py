@@ -37,3 +37,32 @@ class Writer(UserMixin,db.Model):
     
     def __repr__(self):
         return "Writer {}".format(self.writer_name)
+
+
+class Blog(db.Model):
+    """
+    This class allows to create blogs table that will have the following columns:
+        1. id
+        2. title
+        3. body
+        4. posted_at
+        5. writer_id
+        5. posted_by
+        6. writer_url
+        7. comment_id
+    """
+    __tablename__ = 'blogs'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    body = db.Column(db.String)
+    posted_at = db.Column(db.DateTime, default=datetime.utcnow)
+    writer_id = db.Column(db.Integer, db.ForeignKey('writers.id'))
+    writer_url = db.Column(db.String)
+    posted_by = db.Column(db.String)
+    comment_id = db.relationship('Comment', backref="comment_ids", lazy="dynamic")
+
+    def save_blog(self):
+        db.session.add(self)
+        db.session.commit()
+
+
