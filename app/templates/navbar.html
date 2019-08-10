@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="{{url_for('static',filename='css/styles.css')}}" rel="stylesheet">
+    {% if title %}
+    <title>{{title}}</title>
+    {% else %}
+    <title>Strange Blog</title>
+    {% end if %}
+</head>
+
+<body>
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{url_for('writer_user.home')}}">Home</a></li>
+                    <li style="color:white;padding:15px;">{{current_user.writer_name}}</li>    
+                    <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
+                    <li><a href="{{url_for('writer_user.dashboard')}}">Dashboard</a></li>
+                    <li><a href="{{url_for('user.subscribe')}}">Subscribe</a></li>
+                    {% else %}
+                    <li><a href="{{url_for('writer_user.home')}}">Home</a></li>
+                    <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
+                    <li><a href="{{url_for('user.subscribe')}}">Subscribe</a></li>
+                    
+                    
+                    {% endif %}
+        
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <!-- <li><a href="/">Home</a></li> -->
+                </ul>
+            </div>
+
+        </div>
+    </div>
+        <!-- Content block -->
+                
+        {% block content %}
+                
+        {% endblock%}
+   
+
+
+</body>
+
+</html>
