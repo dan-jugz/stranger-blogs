@@ -65,4 +65,19 @@ class Blog(db.Model):
         db.session.add(self)
         db.session.commit()
 
+class Quote:
+    """
+    This class helps to design Quotes data to have:
+        1. quote
+        2. author
+    """
+    def __init__(self, quote, author):
+        """
+        This method allows us to instantiate an instance.
+        
+        """
+        self.quote = quote
+        self.author = author
+
+
 
