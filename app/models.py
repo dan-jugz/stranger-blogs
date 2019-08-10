@@ -65,6 +65,27 @@ class Blog(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
+class Comment(db.Model):
+    """
+    This class helps us to be able to create a comments table that has:
+        1. id column
+        2. comment column
+        3. commented_on column
+        4. blog_id column
+    """
+    
+    __tablename = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    comment = db.Column(db.String)
+    commented_on = db.Column(db.DateTime, default=datetime.utcnow)
+    blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+
 class Quote:
     """
     This class helps to design Quotes data to have:
@@ -79,5 +100,10 @@ class Quote:
         self.quote = quote
         self.author = author
 
+class Subscriber(db.Model):
+    __tablename__ = "subscribers"
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String)
+    
 
 
