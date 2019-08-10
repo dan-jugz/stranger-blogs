@@ -1,13 +1,19 @@
-from flask import render_template, flash,request ,redirect ,url_for
+from flask import render_template, flash
 from . import user
 from request import get_random_quote
+from ..writer import forms
+from .. import db
+from ..models import Blog, Subscriber
+from ..email import mail_message
 
 @user.route('/')
 def home():
     title = 'Stranger Blogs'
+    recent_blogs = Blog.query.order_by(Blog.posted_at.desc()).limit(6)
+    all_blogs = Blog.query.all()
     random_quote = get_random_quote()
 
-    return render_template('user/home/home.html', title=title, random_quote=random_quote)
+    return render_template('user/home/home.html', title=title, all_blogs=all_blogs, recent_blogs=recent_blogs, random_quote=random_quote)
 
 @user.route('/subscribe', methods=['GET', 'POST'])
 def subscribe():
