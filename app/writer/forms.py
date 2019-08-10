@@ -8,9 +8,17 @@ class NewBlogForm(FlaskForm):
     body = TextAreaField('Blog Body', render_kw={"placeholder": "Idealy should have atleast 300 characters"})
     submit = SubmitField('Create blog')
 
-
 class EditBlogForm(FlaskForm):
     title = StringField('Change title')
     writer_url = StringField('Change link to your website')
     body = TextAreaField('New Body?')
     submit = SubmitField('Save changes')
+
+class CommentForm(FlaskForm):
+    title = StringField('Title', validators=[Required()])
+    comment = TextAreaField('Comment')
+    submit = SubmitField('Add Comment')
+
+class SubscribeForm(FlaskForm):
+    email = StringField('Please enter your email address below', validators=[Required()])
+    submit = SubmitField('Subscribe')
