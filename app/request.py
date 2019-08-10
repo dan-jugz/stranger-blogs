@@ -2,10 +2,14 @@ from app import app
 import urllib.request,json
 from .models import User
 
-User=user.User
+#User=user.User
 
-#random quote generator
-api_key=app.config['QUOTE_URL']
+api_key = None
+
+def configure_request(app):
+    global api_key
+    api_key=app.config['QUOTE_URL']
+
 
 def get_random_quote():
     '''
@@ -24,3 +28,18 @@ def get_random_quote():
             quote_result = process_quote_data(qoute_item)
 
     return quote_result
+
+def process_quote_data(source_list):
+    '''
+    this function will process all the quotes from the api key as per quote class arguments
+    each quote should have an author and the quote
+    '''
+    processed_quote = []
+    quote = source_list['quote']
+    author = source_list['author']
+
+    new_quote = Quote(quote, author)
+    print('PROCESSED QUOTE',new_quote)
+
+    processed_quote.append(new_quote)
+    return processed_quote
