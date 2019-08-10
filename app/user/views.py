@@ -1,4 +1,4 @@
-from flask import render_template, flash
+from flask import render_template, flash,request ,redirect ,url_for
 from . import user
 from request import get_random_quote
 
