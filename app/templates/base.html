@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block styles %}
-    {{super()}}
+    {{super()}}{{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
     {{simplemde.css}}
     {{simplemde.js}}
 
