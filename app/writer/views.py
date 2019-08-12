@@ -60,3 +60,11 @@ def edit_blog(id):
             db.session.commit()
         return redirect(url_for('.edit_blog', id=blog.id))
     return render_template('writer/blog/edit_blog.html', blog=blog, form=form, title=title, id=id, comment=comment)
+
+@writer.route('/blog', methods=['GET', 'POST'])
+def home():
+    title = "Stranger | Home"
+    recent_blogs = Blog.query.order_by(Blog.posted_at.desc()).limit(6)
+    all_blogs = Blog.query.all()
+    random_quote = get_random_quote()
+    return render_template('writer/home/index.html', title=title, all_blogs=all_blogs, recent_blogs=recent_blogs, random_quote=random_quote)
