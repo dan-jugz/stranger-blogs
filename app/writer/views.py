@@ -92,3 +92,22 @@ def new_comment(id):
         return redirect(url_for('.view_blog', id=blog.id))
     return render_template('writer/comment/new_comment.html', form=form, blog=blog)
 
+
+@writer.route('/delete/comment/<int:id>')
+@login_required
+def delete_comment(id):    
+    comment = Comment.query.filter_by(id=id).first()
+    ind_blog = Blog.query.filter_by(id=comment.blog_id).first()
+    db.session.delete(comment)
+    db.session.commit() 
+    return redirect(url_for('.edit_blog', id=ind_blog.id))
+
+@writer.route('/delete/blog/<int:id>')
+@login_required
+def delete_blog(id):
+    blog = Blog.query.filter_by(id=id).first()
+    db.session.delete(blog)
+    db.session.commit()
+    return redirect(url_for('.dashboard'))
+
+
