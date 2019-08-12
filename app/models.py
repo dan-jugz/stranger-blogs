@@ -20,10 +20,15 @@ class Writer(UserMixin,db.Model):
     __tablename__ = 'writers'
     id = db.Column(db.Integer, primary_key=True)
     writer_name = db.Column(db.String(50))
-    email = db.Column(db.String)
+    email = db.Column(db.String(64),unique=True,index=True)
+    profile_image=db.Column(db.String(64),default='default_profile.png')
     password_hash = db.Column(db.String(255))   
     writer_blog = db.relationship('Blog', backref="writer", lazy='dynamic')
 
+    posts=db.relationship('Blog',backref='author',lazy='dynamic')
+
+    comments_user=db.relationship('Comment',backref='commenter',lazy="dynamic")
+    
     @property
     def password(self):
         raise AttributeError('Access denied')
@@ -64,6 +69,26 @@ class Blog(db.Model):
     def save_blog(self):
         db.session.add(self)
         db.session.commit()
+        
+    @classmethod
+    def get_posts(cls):
+        '''
+        Function that fetches all blog posts regardless of the writer
+        '''
+
+        posts=Blog.query.order_by(Blog.date.desc()).all()
+        return posts
+
+    @classmethod
+    def get_user_posts(cls,writer_id,page):
+        '''
+        Function that fetches all blog posts for a single writer
+        '''
+        posts_user=Blog.query.filter_by(author=writer_id).order_by(Blog.date.desc()).paginate(page=page,per_page=5) 
+        return posts_user   
+
+    def __repr__(self):
+        return f'PostID:{self.id}--Date{self.date}--Title{self.title}'    
 
 
 class Comment(db.Model):
@@ -85,6 +110,23 @@ class Comment(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def save_comment(self):
+        '''
+        Function that saves a new comment
+        '''
+        db.session.add(self)
+        db.session.commit()
+    
+    @classmethod
+    def get_comments(cls,blog_id):
+        '''
+        Function that fetches a specific post comment
+        '''
+        
+        comments=Comment.query.filter_by(blog_id=blog_id).all()
+        return comments
+
+
 
 class Quote:
     """
@@ -103,6 +145,8 @@ class Quote:
 class Subscriber(db.Model):
     __tablename__ = "subscribers"
     id = db.Column(db.Integer, primary_key=True)
+    subscriber = db.Column(db.String(12))
+    writers = db.relationship('Writer',backref='subsriber',lazy='dynamic')
     email = db.Column(db.String)
     
 
