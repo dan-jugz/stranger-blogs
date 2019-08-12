@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="bs-callout bs-callout-info" id="callout-navbar-overflow"> <h4><a href="{{url_for('writer_user.view_blog', id=blog.id)}}">{{blog.title | truncate(80) | safe}}</a></h4> <p>{{blog.body|truncate(150) | safe}}.</p> <small class="text-muted">by <a><strong>{{blog.posted_by}}</strong></a>, {{ blog.posted_at.strftime('%Y-%m-%d') }}</small> </p></div>
+            <h4><a href="{{url_for('writer_user.view_blog', id=blog.id)}}">Exit</a></h4>
+        </div>
+        <div class="col-md-5">
+            {{wtf.quick_form(form)}}
+            {{simplemde.load}}
+        </div>
+    </div>
+</div>
+<p></p>
+<hr>
+<h6 class="text-center">&#169; Aligator Blog. AllRights Reserved.</h6>
+<p></p>
+<p></p>
+<p></p>
+{% endblock %}

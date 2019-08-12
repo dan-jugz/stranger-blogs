@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1>Your Blogs</h1>
+            <hr>
+            
+            
+        </div>
+        <div class="row">
+            {% if blogs %}
+                <a href="{{url_for('writer_user.new_blog')}}">Add another Blog</a>
+            {% else %}
+                <h4>You have no posted blogs. <a href="{{url_for('writer_user.new_blog')}}">Would you like to add one? </a></h4>
+            {% endif %}
+            
+            {% for blog in blogs %}
+            <div class="bs-callout bs-callout-warning" id="callout-btn-group-justified-dbl-border"> <h4><a href="{{url_for('writer_user.edit_blog', id=blog.id)}}">{{blog.title|safe}}</a></h4> <cite style="color:#006621;">{% if blog.writer_url %}{{blog.writer_url|safe}} {% else %} No writer's url provided {% endif %} </cite> <p> {{blog.body|safe}} <small class="text-muted">by <a><strong>{{blog.posted_by}}</strong></a>, {{ blog.posted_at.strftime('%Y-%m-%d') }}</small></p> </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+    <p></p>
+    <hr>
+    <h6 class="text-center">&#169; Aligator Blog. AllRights Reserved.</h6>
+    <p></p>
+    <p></p>
+    <p></p>
+    
+{% endblock %}
