@@ -76,3 +76,19 @@ def view_blog(id):
     comment = Comment.query.filter_by(blog_id=ind_blog.id).all()
     title = 'Stranger'
     return render_template('writer/blog/ind_blog.html', title=title, ind_blog=ind_blog, id=id, comment=comment)
+
+@writer.route('/comment/new/<int:id>', methods=['GET', 'POST'])
+def new_comment(id):
+    title = "Stranger | Comment Blog"
+    form = CommentForm()
+    blog = Blog.query.filter_by(id=id).first()
+    if form.validate_on_submit():
+        title = form.title.data
+        comment = form.comment.data
+        title = markdown2.markdown(title, extras=["code-friendly", "fenced-code-blocks"])
+        comment = markdown2.markdown(comment, extras=["code-friendly", "fenced-code-blocks"] )
+        new_comment = Comment(title=title, comment=comment, blog_id=blog.id)
+        new_comment.save_comment()
+        return redirect(url_for('.view_blog', id=blog.id))
+    return render_template('writer/comment/new_comment.html', form=form, blog=blog)
+
