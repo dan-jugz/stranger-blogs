@@ -68,3 +68,11 @@ def home():
     all_blogs = Blog.query.all()
     random_quote = get_random_quote()
     return render_template('writer/home/index.html', title=title, all_blogs=all_blogs, recent_blogs=recent_blogs, random_quote=random_quote)
+
+
+@writer.route('/view/blog/<id>', methods=['GET', 'POST'])
+def view_blog(id):
+    ind_blog = Blog.query.filter_by(id=id).first()
+    comment = Comment.query.filter_by(blog_id=ind_blog.id).all()
+    title = 'Stranger'
+    return render_template('writer/blog/ind_blog.html', title=title, ind_blog=ind_blog, id=id, comment=comment)
