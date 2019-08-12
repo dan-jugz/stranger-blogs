@@ -37,3 +37,26 @@ def new_blog():
         flash("Blog successfully created. Check it out on your dashboard")
         return redirect(url_for('.new_blog'))
     return render_template('writer/blog/new_blog.html', title=title, form=form)
+
+@writer.route('/writer/edit-article/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_blog(id):
+    title = 'Edit Blog'
+    blog = Blog.query.filter_by(id=id).first()
+    form = EditBlogForm()
+    comment = Comment.query.filter_by(blog_id=blog.id).all()
+    if form.validate_on_submit():
+        if form.title.data:
+            blog.title = form.title.data
+            db.session.add(blog)
+            db.session.commit()
+        if form.body.data:
+            blog.body = form.body.data
+            db.session.add(blog)
+            db.session.commit()
+        if form.writer_url.data:
+            blog.writer_url = form.writer_url.data
+            db.session.add(blog)
+            db.session.commit()
+        return redirect(url_for('.edit_blog', id=blog.id))
+    return render_template('writer/blog/edit_blog.html', blog=blog, form=form, title=title, id=id, comment=comment)
