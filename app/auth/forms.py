@@ -15,3 +15,9 @@ class RegistrationForm(FlaskForm):
     def validate_writer_name(self, data_field):
         if Writer.query.filter_by(writer_name=data_field.data).first():
             raise ValidationError('That writer-name is taken')
+
+class LoginForm(FlaskForm):
+    email = StringField('Your Email Address', validators=[Required(), Email()])
+    password = PasswordField('Password', validators=[Required()])
+    remember = BooleanField('Remember me')
+    submit = SubmitField('Sign In')
