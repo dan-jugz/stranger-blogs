@@ -14,3 +14,26 @@ def dashboard():
     title = "Writer Dashboard"
     blogs = Blog.query.filter_by(posted_by=current_user.writer_name).all()
     return render_template('writer/dashboard/dashboard.html', title=title, blogs=blogs)
+
+
+@writer.route('/writer/new_blog', methods=['POST', 'GET'])
+@login_required
+def new_blog():
+    title = "New Blog"
+    form = NewBlogForm()
+    if form.validate_on_submit():
+        form_title = form.title.data
+        form_body = form.body.data
+        form_writer_url = form.writer_url.data
+        form_title = markdown2.markdown(form_title, extras=['code-friendly', 'fenced-code-blocks'])
+        form_body = markdown2.markdown(form_body, extras=['code-friendly', 'fenced-code-blocks'])
+        form_writer_url = markdown2.markdown(form_writer_url, extras=['code-friendly', 'fenced-code-blocks'])
+        blog = Blog(title=form_title, body=form_body, posted_by=current_user.writer_name, writer_url=form_writer_url,)
+        blog.save_blog()
+        subscribers = Subscriber.query.all()
+        print("Subscribers are:", subscribers)
+        for i in subscribers:
+            mail_message("New Post", "email/new_blog", i.email)
+        flash("Blog successfully created. Check it out on your dashboard")
+        return redirect(url_for('.new_blog'))
+    return render_template('writer/blog/new_blog.html', title=title, form=form)
