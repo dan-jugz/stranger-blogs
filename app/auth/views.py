@@ -16,4 +16,16 @@ def login():
             login_user(writer, login_form.remember.data)
             return redirect(request.args.get('next') or url_for('writer_user.dashboard'))
         flash('Invalid Writer_name or Password')
+    return render_template('auth/login.html', title=title, login_form=login_form)
+
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    title =  'Alligator | Writer Sign Up'
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        new_writer = Writer(writer_name=form.writer_name.data, email=form.email.data, password=form.password.data)
+        db.session.add(new_writer)
+        db.session.commit()
+        return redirect(url_for('auth.login'))
+    return render_template('auth/register.html', form=form, title=title)
 
