@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="bs-callout bs-callout-warning" id="callout-btn-group-justified-dbl-border"> <h4>{{ind_blog.title|safe}}</h4> <cite style="color:#006621;">{% if ind_blog.writer_url %}{{ind_blog.writer_url|safe}} {% else %} No writer's url provided {% endif %} </cite> <p> {{ind_blog.body|safe}} <small class="text-muted">by <a><strong>{{ind_blog.posted_by}}</strong></a>, {{ ind_blog.posted_at.strftime('%Y-%m-%d') }}</small></p> </div>
+        </div>
+        <div class="row">
+            <hr>
+            <h1 class="text-center">Comments</h1>
+            <hr>
+        </div>
+        <div class="row">
+            <h3><a href="{{url_for('writer_user.new_comment', id=ind_blog.id)}}">Write a comment</a></h3>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h4>
+                    <hr>
+                    {% if comment %}
+                    {% for item in comment %}
+                        <dl>
+                            <dt>{{item.title|safe}}</dt>
+                            <dd>{{item.comment|safe}}</dd>                    
+                            <dd><small>{{ item.commented_on.strftime('%Y-%m-%d') }}</small></dd>
+                        </dl>
+                    {% endfor %}
+                    {% else %}
+                        {{ind_blog.title|safe}} has no comments yet. Be the first?
+                    {% endif %}
+                    <hr>
+                </h4>
+            </div>
+            <div class="col-md-3">
+                
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h6 class="text-center">&#169; Aligator Blog. AllRights Reserved.</h6>
+    <p></p>
+    <p></p>
+    <p></p>
+{% endblock %}

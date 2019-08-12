@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>{{blog.title|safe}}</h3>
+                <hr>
+                <div class="bs-callout bs-callout-danger" id="callout-navbar-fixed-top-padding"> <h4>{{blog.title|safe}}</h4> <cite style="color:#006621;">{{blog.writer_url|safe}}</cite> <p>{{blog.body|safe}}</p><a href="{{url_for('writer_user.delete_blog', id=blog.id)}}"><cite style="color:#f0430e;">Delete blog</cite></a> </div>
+                <hr>
+                <h3>COMMENTS</h3>
+                <hr>
+                {% if comment %}
+                    {% for item in comment %}
+                        <dl>
+                            <dt>{{item.title|safe}}</dt>
+                            <dd>{{item.comment|safe}}</dd>                    
+                            <dd><small>{{ item.commented_on.strftime('%Y-%m-%d') }}</small></dd>
+                            <dd><a href="{{url_for('writer_user.delete_comment', id=item.id)}}"><cite style="color:#f0430e;">Delete comment</cite></a></dd>
+                        </dl>
+                        <p></p>
+                    {% endfor %}
+                {% else %}
+                    {{blog.title|safe}} has no comments yet. 
+                {% endif %}
+
+            </div>
+            <div class="col-md-6">
+                <h3>Update Blog</h3>
+                <hr>
+                {{wtf.quick_form(form)}}
+                {{simplemde.load}}
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <hr>
+    <h6 class="text-center">&#169; Aligator Blog. AllRights Reserved.</h6>
+    <p></p>
+    <p></p>
+    <p></p>
+{% endblock %}
