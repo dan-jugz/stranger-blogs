@@ -5,14 +5,16 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     QUOTES_URL = 'http://quotes.stormconsultancy.co.uk/random.json'
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
 
     @staticmethod
     def init_app(app):
         pass
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get("QUOTES_URL")    
-
+    #SQLALCHEMY_DATABASE_URI = os.environ.get("QUOTES_URL")    
+    pass
+    
 class DevConfig(Config):
         DEBUG = True
 
