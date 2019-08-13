@@ -12,8 +12,8 @@ class Config:
         pass
 
 class ProdConfig(Config):
-    #SQLALCHEMY_DATABASE_URI = os.environ.get("QUOTES_URL")    
-    pass
+    SQLALCHEMY_DATABASE_URI = os.environ.get("QUOTES_URL")    
+    
     
 class DevConfig(Config):
         DEBUG = True

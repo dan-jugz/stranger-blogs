@@ -5,14 +5,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_simplemde import SimpleMDE
 from flask_mail import Mail
-from flask_debugtoolbar import DebugToolbarExtension
+#from flask_debugtoolbar import DebugToolbarExtension
 
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
-toolbar = DebugToolbarExtension()
+#toolbar = DebugToolbarExtension()
 simple = SimpleMDE()
 mail = Mail()
 
@@ -29,7 +29,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
     simple.init_app(app)
     mail.init_app(app)
-    toolbar = DebugToolbarExtension()
+    #toolbar = DebugToolbarExtension()
 
     #setting config
     from .request import configure_request
