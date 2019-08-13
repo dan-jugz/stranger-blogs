@@ -31,7 +31,6 @@ def create_app(config_name):
     mail.init_app(app)
     toolbar = DebugToolbarExtension()
 
-    app.register_blueprint(user)
 
     #setting config
     from .request import configure_request

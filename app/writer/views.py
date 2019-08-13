@@ -5,7 +5,7 @@ from ..models import db
 from flask_login import login_required, current_user
 from .forms import NewBlogForm, EditBlogForm, CommentForm
 import markdown2
-from ..requests import get_random_quote
+from ..request import get_random_quote
 from ..email import mail_message
 
 @writer.route('/home/dashboard', methods=["GET", 'POST'])

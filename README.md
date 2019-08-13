@@ -1,8 +1,8 @@
 # Stranger Blogs
 
-###09th Aug 2019
+### 09th Aug 2019
 
-##By **[Daniel Njuguna](https://github.com/dan-jugz)**
+## By **[Daniel Njuguna](https://github.com/dan-jugz)**
 
 ## Description
 
@@ -39,7 +39,7 @@ In a Linux terminal,
 4. Run `chmod a+x start.sh` - To make start.sh file executable.
 5. Run `./start.sh` to open the app.
 
-###Known bugs
+### Known bugs
 * deployment issues
 
 ## FEEDBACK
