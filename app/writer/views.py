@@ -90,7 +90,7 @@ def new_comment(id):
         new_comment = Comment(title=title, comment=comment, blog_id=blog.id)
         new_comment.save_comment()
         return redirect(url_for('.view_blog', id=blog.id))
-    return render_template('writer/comment/new_comment.html', form=form, blog=blog)
+    return render_template('writer/blog/new_comment.html', form=form, blog=blog)
 
 
 @writer.route('/delete/comment/<int:id>')
