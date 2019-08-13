@@ -25,10 +25,8 @@ class Writer(UserMixin,db.Model):
     password_hash = db.Column(db.String(255))   
     writer_blog = db.relationship('Blog', backref="writer", lazy='dynamic')
 
-    posts=db.relationship('Blog',backref='author',lazy='dynamic')
-
     comments_user=db.relationship('Comment',backref='commenter',lazy="dynamic")
-    
+    subscriber_id=db.relationship('Subscriber',backref='writer',lazy='dynamic')
     @property
     def password(self):
         raise AttributeError('Access denied')
@@ -65,7 +63,7 @@ class Blog(db.Model):
     writer_url = db.Column(db.String)
     posted_by = db.Column(db.String)
     comment_id = db.relationship('Comment', backref="comment_ids", lazy="dynamic")
-
+    
     def save_blog(self):
         db.session.add(self)
         db.session.commit()
@@ -76,7 +74,7 @@ class Blog(db.Model):
         Function that fetches all blog posts regardless of the writer
         '''
 
-        posts=Blog.query.order_by(Blog.date.desc()).all()
+        posts=Blog.query.order_by(Blog.posted_at.desc()).all()
         return posts
 
     @classmethod
@@ -106,6 +104,8 @@ class Comment(db.Model):
     comment = db.Column(db.String)
     commented_on = db.Column(db.DateTime, default=datetime.utcnow)
     blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+    writer_id = db.Column(db.Integer, db.ForeignKey('writers.id'))
+
     def save_comment(self):
         db.session.add(self)
         db.session.commit()
@@ -146,7 +146,7 @@ class Subscriber(db.Model):
     __tablename__ = "subscribers"
     id = db.Column(db.Integer, primary_key=True)
     subscriber = db.Column(db.String(12))
-    writers = db.relationship('Writer',backref='subsriber',lazy='dynamic')
+    writer_id = db.Column(db.Integer, db.ForeignKey('writers.id'))
     email = db.Column(db.String)
     
 

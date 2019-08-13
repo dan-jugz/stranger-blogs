@@ -31,11 +31,14 @@ def create_app(config_name):
     mail.init_app(app)
     toolbar = DebugToolbarExtension()
 
-
     #setting config
     from .request import configure_request
     configure_request(app)
+
     #registering blueprint
+    from .user import user as user_blueprint
+    app.register_blueprint(user_blueprint)
+
     from .writer import writer_user as main_blueprint
     app.register_blueprint(main_blueprint)
 

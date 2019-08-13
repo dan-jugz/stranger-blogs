@@ -13,7 +13,7 @@ from ..email import mail_message
 def dashboard():
     title = "Writer Dashboard"
     blogs = Blog.query.filter_by(posted_by=current_user.writer_name).all()
-    return render_template('writer/dashboard/dashboard.html', title=title, blogs=blogs)
+    return render_template('writer/blog/dashboard.html', title=title, blogs=blogs)
 
 
 @writer.route('/writer/new_blog', methods=['POST', 'GET'])
@@ -67,7 +67,7 @@ def home():
     recent_blogs = Blog.query.order_by(Blog.posted_at.desc()).limit(6)
     all_blogs = Blog.query.all()
     random_quote = get_random_quote()
-    return render_template('writer/home/index.html', title=title, all_blogs=all_blogs, recent_blogs=recent_blogs, random_quote=random_quote)
+    return render_template('index.html', title=title, all_blogs=all_blogs, recent_blogs=recent_blogs, random_quote=random_quote)
 
 
 @writer.route('/view/blog/<id>', methods=['GET', 'POST'])
