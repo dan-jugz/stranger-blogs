@@ -40,7 +40,7 @@ In a Linux terminal,
 5. Run `./start.sh` to open the app.
 
 ### Known bugs
-* deployment issues
+* photo uploads are misbehaving
 
 ## FEEDBACK
 Your opinion matters. 
