@@ -1,8 +1,5 @@
-from app import app
 import urllib.request,json
-from .models import User
-
-#User=user.User
+from .models import Quote
 
 api_key = None
 
@@ -15,9 +12,9 @@ def get_random_quote():
     '''
     Function that gets the random quote
     '''
-    get_quote_url = base_url
+    get_quote_url = api_key
 
-    with urllib.request.urlopen(api_key) as url:
+    with urllib.request.urlopen(get_quote_url) as url:
         get_quote_data = url.read()
         quote_json = json.loads(get_quote_data)
 
